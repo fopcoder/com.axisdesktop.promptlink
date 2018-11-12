@@ -84,7 +84,7 @@ public class SimpleLimitedSet<T> implements LimitedSet<T> {
   }
 
   private T getRarelyUsedElement() {
-    if (rarelyUsedElement == null) {
+    if (rarelyUsedElement == null && dataSet.size() > 0) {
       Entry<T, Integer> entry =
           Collections.min(dataSet.entrySet(), Comparator.comparing(Entry::getValue));
       rarelyUsedElement = (entry == null) ? null : entry.getKey();
