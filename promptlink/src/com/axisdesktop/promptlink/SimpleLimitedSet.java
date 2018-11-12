@@ -20,7 +20,7 @@ import java.util.Map.Entry;
 public class SimpleLimitedSet<T> implements LimitedSet<T> {
   private final int maxCapacity;
   private final Map<T, Integer> dataSet = new HashMap<>();
-  private T rarelyUsedElement;
+  private T rarelyUsedElement; // element cache
 
   public SimpleLimitedSet() {
     this.maxCapacity = 10;
@@ -72,7 +72,7 @@ public class SimpleLimitedSet<T> implements LimitedSet<T> {
       if (t.equals(rarelyUsedElement)) {
         rarelyUsedElement = null; // no more rarely used
       } else {
-        if (dataSet.get(t) < dataSet.get(rarelyUsedElement)) {
+        if (rarelyUsedElement != null && dataSet.get(t) < dataSet.get(rarelyUsedElement)) {
           rarelyUsedElement = t;
         }
       }
