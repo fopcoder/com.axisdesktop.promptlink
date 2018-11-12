@@ -20,6 +20,7 @@ import java.util.Map.Entry;
 public class SimpleLimitedSet<T> implements LimitedSet<T> {
   private final int maxCapacity;
   private final Map<T, Integer> dataSet = new HashMap<>();
+  private T rarelyUsedElement;
 
   public SimpleLimitedSet() {
     this.maxCapacity = 10;
@@ -38,7 +39,9 @@ public class SimpleLimitedSet<T> implements LimitedSet<T> {
       if (dataSet.size() == maxCapacity) {
         remove(getRarelyUsedElement());
       }
+
       dataSet.put(t, 0);
+      rarelyUsedElement = t;
     }
   }
 
@@ -51,6 +54,10 @@ public class SimpleLimitedSet<T> implements LimitedSet<T> {
       return false;
     }
 
+    if (t.equals(rarelyUsedElement)) {
+      rarelyUsedElement = null;
+    }
+
     return true;
   }
 
@@ -61,6 +68,15 @@ public class SimpleLimitedSet<T> implements LimitedSet<T> {
 
     if (dataSet.containsKey(t)) {
       dataSet.compute(t, (k, v) -> v + 1);
+
+      if (t.equals(rarelyUsedElement)) {
+        rarelyUsedElement = null; // no more rarely used
+      } else {
+        if (dataSet.get(t) < dataSet.get(rarelyUsedElement)) {
+          rarelyUsedElement = t;
+        }
+      }
+
       return true;
     }
 
@@ -68,10 +84,13 @@ public class SimpleLimitedSet<T> implements LimitedSet<T> {
   }
 
   private T getRarelyUsedElement() {
-    Entry<T, Integer> entry =
-        Collections.min(dataSet.entrySet(), Comparator.comparing(Entry::getValue));
+    if (rarelyUsedElement == null) {
+      Entry<T, Integer> entry =
+          Collections.min(dataSet.entrySet(), Comparator.comparing(Entry::getValue));
+      rarelyUsedElement = (entry == null) ? null : entry.getKey();
+    }
 
-    return entry == null ? null : entry.getKey();
+    return rarelyUsedElement;
   }
 
   public int size() {
