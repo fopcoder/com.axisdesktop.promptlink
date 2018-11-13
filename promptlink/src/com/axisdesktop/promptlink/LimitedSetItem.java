@@ -25,6 +25,7 @@ public class LimitedSetItem<T> implements Comparable<LimitedSetItem<T>> {
     count++;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public boolean equals(Object o) {
     return obj.equals(((LimitedSetItem<T>) o).getObj());

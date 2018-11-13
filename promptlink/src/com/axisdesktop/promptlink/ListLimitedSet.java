@@ -39,7 +39,7 @@ public class ListLimitedSet<T> implements LimitedSet<T> {
         dataSet.remove(0);
       }
 
-      dataSet.add(0, new LimitedSetItem<T>(t));
+      dataSet.add(0, item);
     }
   }
 
