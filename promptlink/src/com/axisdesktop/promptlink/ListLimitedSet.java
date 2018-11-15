@@ -36,6 +36,7 @@ public class ListLimitedSet<T> implements LimitedSet<T> {
 
     if (!dataSet.contains(item)) {
       if (dataSet.size() == maxCapacity) {
+        Collections.sort(dataSet);
         dataSet.remove(0);
       }
 
@@ -65,8 +66,6 @@ public class ListLimitedSet<T> implements LimitedSet<T> {
     if (idx >= 0) {
       LimitedSetItem<T> item = dataSet.get(idx);
       item.incCount();
-
-      Collections.sort(dataSet);
 
       return true;
     }

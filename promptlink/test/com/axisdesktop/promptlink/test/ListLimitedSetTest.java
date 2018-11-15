@@ -99,10 +99,10 @@ class ListLimitedSetTest {
 
     long t = 0;
     for (int j = 5000; j < 7000; j++) {
-      long st = System.currentTimeMillis();
-
-      dataSet.contains("" + j);
-      t = (t + System.currentTimeMillis() - st) / 2;
+      String s = "" + j;
+      long st = System.nanoTime();
+      dataSet.contains(s);
+      t = (t + System.nanoTime() - st) / 2;
     }
 
     dataSet.showData();
