@@ -37,6 +37,11 @@ public class LimitedSetItem<T> implements Comparable<LimitedSetItem<T>> {
   }
 
   @Override
+  public int hashCode() {
+    return obj.hashCode();
+  }
+
+  @Override
   public int compareTo(LimitedSetItem<T> o) {
     return count - o.getCount();
   }
